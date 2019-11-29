@@ -20,7 +20,12 @@ int HashTable::hashFuntion(string value)
 		temp = ((value[i] - 'a') * powInt(s_alphabetSize, i)) % s_prime;
 		result += temp;
 	}
-	return result % s_prime;
+	result = result % s_prime;
+	if (result < 0)
+	{
+		result += m_hashTableSize;
+	}
+	return result;
 }
 
 int HashTable::powInt(int x, int y)
