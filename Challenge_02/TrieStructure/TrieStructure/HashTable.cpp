@@ -13,9 +13,12 @@ HashTable::HashTable()
 int HashTable::hashFuntion(string value)
 {
 	int result = 0;
+	int temp = 0;
+	//Băm từng thành phần để chống tràn số (a+b)mod m= (a mod m + b mod m) mod m
 	for (int i = 0; i < value.length(); i++)
 	{
-		result += value[i] * powInt(s_alphabetSize, i);
+		temp = ((value[i] - 'a') * powInt(s_alphabetSize, i)) % s_prime;
+		result += temp;
 	}
 	result = result % s_prime;
 	if (result < 0)
@@ -37,42 +40,27 @@ int HashTable::powInt(int x, int y)
 
 void HashTable::insert(string value)
 {
-	int index = 0;
-	int i = 0;
-	while (i < m_hashTableSize)
+	int index = hashFuntion(value)%m_hashTableSize;
+	while (m_hashTable[index] != "")
 	{
-		index = (hashFuntion(value) + i) % m_hashTableSize;
-		if (index < 0)
-		{
-			index += m_hashTableSize;
-		}
-		if (m_hashTable[index] == "")
-		{
-			m_hashTable[index] = value;
-			break;
-		}
-		i++;
+		index = (index + 1) % m_hashTableSize;
 	}
+	m_hashTable[index] = value;
 }
 
 bool HashTable::search(string value)
 {
-	int index = 0;
-	int i = 0;
-	while (i < m_hashTableSize)
+	
+	int index = hashFuntion(value)%m_hashTableSize;
+	while (m_hashTable[index] != value && m_hashTable[index] != "")
 	{
-		index = (hashFuntion(value) + i) % m_hashTableSize;
-		if (index < 0)
-		{
-			index += m_hashTableSize;
-		}
-		if (m_hashTable[index] == value)
-		{
-			return true;
-		}
-		i++;
+		index = (index + 1) % m_hashTableSize;
 	}
-	return false;
+	if (m_hashTable[index] != value)
+	{
+		return false;
+	}
+	return true;
 }
 
 
