@@ -25,7 +25,7 @@ void Trie::interFace()
 	bool* check = new bool[n];
 
 
-	for (int k = 6; k <= n && k <= m_maxWordLength; ++k)
+	for (int k = 3; k <= n && k <= m_maxWordLength; ++k)
 	{
 		for (int i = 0; i < n; ++i)
 		{
@@ -46,7 +46,7 @@ void Trie::interFace()
 		exit(0);
 	}
 	m_outputFile << m_countWord << endl;
-	for (int i = 0; i < m_inputData.size(); i++)
+	for (int i = 0; i < m_countWord; i++)
 	{
 		m_outputFile << m_outputData[i] << endl;
 	}
@@ -134,7 +134,6 @@ void Trie::printOutput(int arr[], int k, string result)
 	{
 		m_hashTable.insert(result);
 		m_outputData.push_back(result);
-		cout << result<<" ";
 		m_countWord++;
 	}
 }
